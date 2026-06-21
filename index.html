@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Life Manager</title>
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons: Phosphor -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    
+    <!-- Background Design Overlay -->
+    <div class="bg-gradient-overlay"></div>
+
+    <!-- Login / Welcome Screen -->
+    <div id="login-overlay" class="login-overlay active">
+        <div class="login-card">
+            <i class="ph-duotone ph-leaf logo-icon-large"></i>
+            <h1>Welcome to Smart Life Manager 🌿</h1>
+            <p>Your peaceful, personal productivity space.</p>
+            <div class="login-input-group">
+                <label for="username-input">Enter your name:</label>
+                <input type="text" id="username-input" placeholder="e.g. Mahi" autocomplete="off">
+            </div>
+            <button id="login-btn" class="btn btn-primary">Continue</button>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container" id="app-container" style="display: none;">
+        
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="ph-fill ph-leaf"></i>
+                    <span>Smart Life</span>
+                </div>
+                <button class="toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" data-target="dashboard">
+                    <i class="ph ph-squares-four"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-target="tasks">
+                    <i class="ph ph-check-circle"></i>
+                    <span>Tasks</span>
+                </li>
+                <li class="nav-item" data-target="diary">
+                    <i class="ph ph-book-open"></i>
+                    <span>Diary</span>
+                </li>
+                <li class="nav-item" data-target="notes">
+                    <i class="ph ph-note-pencil"></i>
+                    <span>Notes</span>
+                </li>
+                <li class="nav-item" data-target="settings">
+                    <i class="ph ph-gear"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- DASHBOARD VIEW -->
+            <section id="dashboard" class="view-section active">
+                <header class="view-header dashboard-header">
+                    <div class="greeting-box">
+                        <h1 id="user-greeting">Good Morning! 🌿</h1>
+                        <p class="subtitle" id="current-date-display">Monday, Jan 1, 2024</p>
+                    </div>
+                </header>
+
+                <div class="dashboard-grid stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="ph ph-check-square"></i></div>
+                        <div class="stat-info">
+                            <h3 id="dash-total">0</h3>
+                            <p>Total Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning"><i class="ph ph-clock"></i></div>
+                        <div class="stat-info">
+                            <h3 id="dash-pending">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success"><i class="ph ph-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3 id="dash-completed">0</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon primary"><i class="ph ph-chart-line-up"></i></div>
+                        <div class="stat-info">
+                            <h3 id="dash-progress-text">0%</h3>
+                            <p>Productivity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-middle-grid">
+                    <!-- Calendar -->
+                    <div class="calendar-container card">
+                        <div class="calendar-header">
+                            <button id="cal-prev" class="btn-text"><i class="ph-bold ph-caret-left"></i></button>
+                            <h3 id="cal-month-year">January 2024</h3>
+                            <button id="cal-next" class="btn-text"><i class="ph-bold ph-caret-right"></i></button>
+                        </div>
+                        <div class="calendar-days-header">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div id="calendar-grid" class="calendar-grid">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Today's Tasks -->
+                    <div class="today-tasks-container card">
+                        <h3>Today's Tasks</h3>
+                        <div id="dashboard-recent-list" class="recent-list">
+                            <!-- Populated via JS -->
+                        </div>
+                        <div class="empty-state small" id="dash-empty-state" style="display: none;">
+                            <i class="ph-duotone ph-party-horn"></i>
+                            <p>You're all caught up for today! 🎉</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- TASKS VIEW -->
+            <section id="tasks" class="view-section">
+                <header class="view-header flex-header">
+                    <div>
+                        <h1>My Tasks</h1>
+                        <p class="subtitle">Manage your daily goals.</p>
+                    </div>
+                    <div class="search-box">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" id="task-search" placeholder="Search tasks...">
+                    </div>
+                </header>
+
+                <div class="task-controls card">
+                    <div class="add-task-container">
+                        <input type="text" id="new-task-input" placeholder="What needs to be done?">
+                        <select id="new-task-priority" class="priority-select">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                        <input type="date" id="new-task-date" class="date-select">
+                        <button id="add-task-btn" class="btn btn-primary"><i class="ph ph-plus"></i> Add Task</button>
+                    </div>
+                </div>
+
+                <div class="filter-controls">
+                    <div class="tabs" id="task-filters">
+                        <button class="tab active" data-filter="all">All</button>
+                        <button class="tab" data-filter="pending">Pending</button>
+                        <button class="tab" data-filter="completed">Completed</button>
+                    </div>
+                    <button id="delete-all-btn" class="btn btn-danger btn-text"><i class="ph ph-trash"></i> Delete All</button>
+                </div>
+
+                <div class="task-list-container">
+                    <ul id="task-list" class="task-list">
+                        <!-- Tasks go here -->
+                    </ul>
+                    <div class="empty-state" id="tasks-empty-state">
+                        <i class="ph-duotone ph-coffee"></i>
+                        <p>You're all caught up! 🎉</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIARY VIEW -->
+            <section id="diary" class="view-section">
+                <header class="view-header">
+                    <h1>Personal Diary</h1>
+                    <p class="subtitle">Document your daily journey.</p>
+                </header>
+
+                <div class="diary-container">
+                    <div class="diary-sidebar card">
+                        <h3>Previous Entries</h3>
+                        <ul id="diary-history" class="diary-history">
+                            <!-- History populated via JS -->
+                        </ul>
+                        <div class="empty-state small" id="diary-empty-state">
+                            <i class="ph-duotone ph-book-open-text"></i>
+                            <p>Start documenting your journey today.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diary-editor card">
+                        <div class="diary-controls">
+                            <input type="date" id="diary-date" class="date-picker">
+                            <div class="mood-selector" id="mood-selector">
+                                <button class="mood-btn active" data-mood="😊 Happy">😊 Happy</button>
+                                <button class="mood-btn" data-mood="🙂 Good">🙂 Good</button>
+                                <button class="mood-btn" data-mood="😐 Neutral">😐 Neutral</button>
+                                <button class="mood-btn" data-mood="😔 Sad">😔 Sad</button>
+                                <button class="mood-btn" data-mood="😫 Stressed">😫 Stressed</button>
+                            </div>
+                        </div>
+                        <textarea id="diary-content" placeholder="Dear Diary..."></textarea>
+                        <div class="diary-footer">
+                            <span id="diary-save-status" class="save-status"></span>
+                            <button id="save-diary-btn" class="btn btn-primary"><i class="ph ph-floppy-disk"></i> Save Entry</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NOTES VIEW -->
+            <section id="notes" class="view-section">
+                <header class="view-header flex-header">
+                    <div>
+                        <h1>Quick Notes</h1>
+                        <p class="subtitle">Capture ideas instantly.</p>
+                    </div>
+                    <button id="new-note-btn" class="btn btn-primary"><i class="ph ph-plus"></i> New Note</button>
+                </header>
+
+                <div class="search-box notes-search">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="notes-search" placeholder="Search notes...">
+                </div>
+
+                <div class="notes-grid" id="notes-grid">
+                    <!-- Note Cards populated via JS -->
+                </div>
+                <div class="empty-state" id="notes-empty-state">
+                    <i class="ph-duotone ph-note-pencil"></i>
+                    <p>No notes found. Create your first note!</p>
+                </div>
+
+                <!-- Note Editor Modal -->
+                <div class="modal-overlay" id="note-modal">
+                    <div class="modal-content note-modal-card">
+                        <input type="text" id="note-modal-title" placeholder="Note Title...">
+                        <textarea id="note-modal-content" placeholder="Start typing..."></textarea>
+                        <div class="modal-actions">
+                            <button class="btn btn-text" id="close-note-btn">Cancel</button>
+                            <button class="btn btn-primary" id="save-note-btn">Save Note</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS VIEW -->
+            <section id="settings" class="view-section">
+                <header class="view-header">
+                    <h1>Settings</h1>
+                    <p class="subtitle">Manage your application preferences.</p>
+                </header>
+
+                <div class="settings-grid">
+                    <!-- Change Name -->
+                    <div class="settings-card card">
+                        <div class="settings-icon"><i class="ph ph-user"></i></div>
+                        <div class="settings-info">
+                            <h3>Personalization</h3>
+                            <p>Change how the application greets you.</p>
+                            <div class="name-change-group" style="display: flex; gap: 10px; margin-top: 10px;">
+                                <input type="text" id="settings-name-input" placeholder="Your Name">
+                                <button id="save-name-btn" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <div class="settings-card card">
+                        <div class="settings-icon"><i class="ph ph-palette"></i></div>
+                        <div class="settings-info">
+                            <h3>Appearance</h3>
+                            <p>Toggle between light and dark mode.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <!-- Export -->
+                    <div class="settings-card card">
+                        <div class="settings-icon"><i class="ph ph-export"></i></div>
+                        <div class="settings-info">
+                            <h3>Export Data</h3>
+                            <p>Download all your tasks, diary entries, and notes as a JSON file.</p>
+                        </div>
+                        <button class="btn btn-secondary" id="export-data-btn">Export Backup</button>
+                    </div>
+
+                    <!-- Import -->
+                    <div class="settings-card card">
+                        <div class="settings-icon"><i class="ph ph-download-simple"></i></div>
+                        <div class="settings-info">
+                            <h3>Import Data</h3>
+                            <p>Restore your data from a previous JSON backup.</p>
+                        </div>
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Backup</button>
+                    </div>
+
+                    <!-- Clear Data -->
+                    <div class="settings-card card danger-zone">
+                        <div class="settings-icon" style="background: rgba(239,68,68,0.1);"><i class="ph ph-warning-circle" style="color: var(--danger);"></i></div>
+                        <div class="settings-info">
+                            <h3 style="color: var(--danger);">Clear All Data</h3>
+                            <p>Permanently delete all tasks, notes, and diary entries from this browser.</p>
+                        </div>
+                        <button class="btn btn-danger" id="clear-data-btn">Clear Data</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
