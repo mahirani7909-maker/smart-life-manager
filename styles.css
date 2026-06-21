@@ -659,7 +659,7 @@ body.dark-mode #diary-content:focus { background: var(--bg-base); }
 .settings-info p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; }
 
 .name-change-group { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; width: 100%; }
-.name-change-group input { flex: 1; min-width: 140px; }
+.name-change-group input { flex: 1; min-width: 140px; width: auto; }
 
 .switch { position: relative; display: inline-block; width: 50px; height: 28px; margin-top: 0.5rem; }
 .switch input { opacity: 0; width: 0; height: 0; }
