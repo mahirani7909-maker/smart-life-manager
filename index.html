@@ -305,8 +305,8 @@
                         <div class="settings-info">
                             <h3>Export Data</h3>
                             <p>Download all your tasks, diary entries, and notes as a JSON file.</p>
+                            <button class="btn btn-secondary" id="export-data-btn">Export Backup</button>
                         </div>
-                        <button class="btn btn-secondary" id="export-data-btn">Export Backup</button>
                     </div>
 
                     <!-- Import -->
@@ -315,9 +315,9 @@
                         <div class="settings-info">
                             <h3>Import Data</h3>
                             <p>Restore your data from a previous JSON backup.</p>
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                            <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Backup</button>
                         </div>
-                        <input type="file" id="import-file" accept=".json" style="display: none;">
-                        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Backup</button>
                     </div>
 
                     <!-- Clear Data -->
@@ -326,8 +326,8 @@
                         <div class="settings-info">
                             <h3 style="color: var(--danger);">Clear All Data</h3>
                             <p>Permanently delete all tasks, notes, and diary entries from this browser.</p>
+                            <button class="btn btn-danger" id="clear-data-btn">Clear Data</button>
                         </div>
-                        <button class="btn btn-danger" id="clear-data-btn">Clear Data</button>
                     </div>
                 </div>
             </section>
